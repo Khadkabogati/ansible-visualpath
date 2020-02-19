@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Print variables and some messages
+      debug:
+        msg: "The Hostname of this machine is {{ansible_hostname}}"
+
+
+    - name: Print OS family name
+      debug:
+        msg: "This machine belongs to {{ansible_os_family}}"
