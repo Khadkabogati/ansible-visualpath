@@ -1,0 +1,12 @@
+---
+# handlers file for ntpsvc
+- name: Restart NTP on RedHat
+  service:
+    name: ntpd
+    state: restarted
+
+- name: Restart NTP on Ubuntu
+  service:
+    name: ntp
+    state: restarted
+

@@ -1,0 +1,6 @@
+---
+- hosts: dbsrvgrp
+  become: yes
+  roles:
+    - ntpsvc
+    - geerlingguy.mysql

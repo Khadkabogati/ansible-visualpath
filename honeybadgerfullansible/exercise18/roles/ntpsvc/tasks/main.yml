@@ -1,0 +1,59 @@
+---
+# tasks file for ntpsvc
+- name: Install NTP on Ubuntu
+  apt:
+    name: "{{item}}"
+    state: present
+  when: ansible_os_family == "Debian"
+  loop:
+    - ntp
+    - git
+    - wget
+    - unzip
+    - tree
+
+- name: install NTP on Centos
+  yum:
+     name: "{{item}}"
+     state: present
+  when: ansible_os_family == "RedHat"
+  loop:
+     - ntp
+     - git
+     - wget
+     - unzip
+     - tree
+
+- name: Start & Enable on ubuntu
+  service:
+     name: ntp
+     state: started
+     enabled: yes
+  when: ansible_os_family == "Debian"
+
+
+- name: Start & Enable NTP on Centos
+  service:
+    name: ntpd
+    state: started
+    enabled: yes
+  when: ansible_os_family == "RedHat"
+  notify:
+    - Restart NTP on Ubuntu
+
+- name: Deploy ntp.conf file on ubuntu servers
+  template:
+    src: ntp_ubuntu.conf.j2
+    dest: "{{ntp_conf_path}}"
+  when: ansible_os_family == "Debian"
+  notify:
+        - Restart NTP on Ubuntu
+
+- name: Deploy ntp.conf file on RedHat servers
+  template:
+    src: ntp_centos.conf.j2
+    dest: "{{ntp_conf_path}}"
+  when: ansible_os_family == "RedHat"
+  notify:
+    - Restart NTP on RedHat
+

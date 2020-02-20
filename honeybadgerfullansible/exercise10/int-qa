@@ -1,0 +1,15 @@
+websrv01 ansible_host=172.31.25.127 ansible_user=devops ansible_ssh_pass=khadak86
+websrv02 ansible_host=172.31.24.106 ansible_user=devops ansible_ssh_pass=khadak86
+dbsrv01 ansible_host=172.31.40.136 ansible_user=devops ansible_ssh_pass=khadak86
+
+
+[websrvgrp]
+websrv01
+websrv02
+
+[dbsrvgrp]
+dbsrv01
+
+[DC-mum:children]
+websrvgrp
+dbsrvgrp

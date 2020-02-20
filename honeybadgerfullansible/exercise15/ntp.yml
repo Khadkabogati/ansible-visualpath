@@ -1,0 +1,74 @@
+---
+- name: Setup NTP on all hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install NTP on Ubuntu
+      apt:
+        name: "{{item}}"
+        state: present
+      when: ansible_os_family == "Debian"
+      loop:
+        - ntp
+        - git
+        - wget
+        - unzip
+        - tree
+
+    - name: install NTP on Centos
+      yum:
+        name: "{{item}}"
+        state: present
+      when: ansible_os_family == "RedHat"
+      loop:
+        - ntp
+        - git
+        - wget
+        - unzip
+        - tree
+
+    - name: Start & Enable on ubuntu
+      service:
+        name: ntp
+        state: started
+        enabled: yes
+      when: ansible_os_family == "Debian"
+
+
+    - name: Start & Enable NTP on Centos
+      service:
+        name: ntpd
+        state: started
+        enabled: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Deploy ntp.conf file on ubuntu servers
+      copy:
+        src: files/ntp_ubuntu.conf
+        dest: /etc/ntp.conf
+      when: ansible_os_family == "Debian"
+      notify:
+        - Restart NTP on Ubuntu
+
+    - name: Deploy ntp.conf file on RedHat servers
+      copy:
+        src: files/ntp_centos.conf
+        dest: /etc/ntp.conf
+      when: ansible_os_family == "RedHat"
+      notify:
+        - Restart NTP on RedHat
+
+  handlers:
+    - name: Restart NTP on RedHat
+      service:
+        name: ntpd
+        state: restarted
+
+
+    - name: Restart NTP on Ubuntu
+      service:
+        name: ntp
+        state: restarted
+
+
+

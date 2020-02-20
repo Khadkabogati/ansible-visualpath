@@ -1,0 +1,7 @@
+---
+# defaults file for ntpsvc
+ntpserver0: 0.us.pool.ntp.org
+ntpserver1: 1.us.pool.ntp.org
+ntpserver2: 2.us.pool.ntp.org
+ntpserver3: 3.us.pool.ntp.org
+ntp_conf_path: /etc/ntp.conf

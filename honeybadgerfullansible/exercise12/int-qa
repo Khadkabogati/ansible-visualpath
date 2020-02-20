@@ -1,0 +1,21 @@
+websrv01 ansible_host=172.31.25.127 
+websrv02 ansible_host=172.31.24.106 
+dbsrv01 ansible_host=172.31.40.136  
+
+
+[websrvgrp]
+websrv01
+websrv02
+
+[dbsrvgrp]
+dbsrv01
+
+[DC-mum:children]
+websrvgrp
+dbsrvgrp
+
+
+[DC-mum:vars]
+ansible_user=devops
+#ansible_ssh_private_key_file=khadak.pem
+

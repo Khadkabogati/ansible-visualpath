@@ -1,0 +1,21 @@
+---
+- name: Learning variables and thier precedence
+  hosts: all
+  become: yes
+  #vars:
+  #  usrnm: nir
+  tasks:
+    - name: Add username based on variable value
+      user:
+        name: "{{usrnm}}"
+        state: present
+        shell: /bin/bash
+      register: user_info
+
+
+    - debug:
+        msg: "{{user_info}}"
+
+
+    - debug:
+        msg: "The user is for user {{usrnm}} is {{user_info.uid}}."

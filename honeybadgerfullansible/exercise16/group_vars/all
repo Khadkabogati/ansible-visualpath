@@ -1,0 +1,6 @@
+# varialbes for all the hosts
+usrnm: raheem
+ntpserver0: 0.us.pool.ntp.org
+ntpserver1: 1.us.pool.ntp.org
+ntpserver2: 2.us.pool.ntp.org
+ntpserver3: 3.us.pool.ntp.org

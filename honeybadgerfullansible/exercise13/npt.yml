@@ -1,0 +1,32 @@
+---
+- name: Setup NTP on all hosts
+  hosts: [websrvgrp,dbsrvgrp]
+  become: yes
+  tasks:
+    - name: Install NTP on Ubuntu
+      apt:
+        name: ntp
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: install NTP on Centos
+      yum:
+        name: ntp
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Start & Enable on ubuntu
+      service:
+        name: ntp
+        state: started
+        enabled: yes
+      when: ansible_os_family == "Debian"
+
+
+    - name: Start & Enable NTP on Centos
+      service:
+        name: ntpd
+        state: started
+        enabled: yes
+      when: ansible_os_family == "RedHat"
+
